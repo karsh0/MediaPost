@@ -119,7 +119,27 @@ app.get('/like/:id', authMiddleware, async(req, res) => {
         post.likes.pop(req.user.userId);
     }
     await post.save()
-    req.redirect('/profile')
+    res.redirect('/profile')
+    }
+    catch(e){
+      console.log(e)
+      res.redirect('/profile')
+    }
+  });
+
+app.get('/edit/:id', authMiddleware, async(req,res)=>{
+    const post = await postModel.findOne({ _id: req.params.id });
+    res.render('edit',{post});
+})
+
+
+app.post('/edit/:id', authMiddleware, async(req, res) => {
+    try{
+    const {content} = req.body;
+    const post = await postModel.findOneAndUpdate({ _id: req.params.id },{content});
+    
+    await post.save()
+    res.redirect('/profile')
     }
     catch(e){
       console.log(e)
