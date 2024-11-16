@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const user = require('./models/user');
-const { escapeXML } = require('ejs');
 const env = require('dotenv')
 env.config(); 
 
@@ -110,7 +109,6 @@ app.post('/post', authMiddleware, async(req,res)=>{
     })
     user.posts.push(post._id)
     await user.save()
-    console.log(post)
     res.redirect('/profile')
 })
 
